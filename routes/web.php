@@ -7,8 +7,8 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\CustomerController;
 Route::get('/', function () {
-// return view('welcome');
-return redirect()->route('beranda');
+    // return view('welcome');
+    return redirect()->route('beranda');
 });
 
 Route::get('backend/beranda', [BerandaController::class, 'berandaBackend'])->name('backend.beranda')->middleware('auth');
@@ -34,6 +34,15 @@ Route::get('backend/laporan/formproduk', [ProdukController::class, 'formProduk']
 Route::post('backend/laporan/cetakproduk', [ProdukController::class, 'cetakProduk'])->name('backend.laporan.cetakproduk')->middleware('auth');
 // Route untuk Customer
 Route::resource('backend/customer', CustomerController::class, ['as' => 'backend'])->middleware('auth');
+// Group route untuk customer
+Route::middleware('is.customer')->group(function () {
+    // Route untuk menampilkan halaman akun customer
+    Route::get('/customer/akun/{id}', [CustomerController::class, 'akun'])
+        ->name('customer.akun');
+    // Route untuk mengupdate data akun customer
+    Route::put('/customer/updateakun/{id}', [CustomerController::class, 'updateAkun'])
+        ->name('customer.akun.update');
+});
 
 // Frontend
 Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda');

@@ -30,6 +30,10 @@
 </head>
 
 <body>
+    @php
+        $kategori = DB::table('kategori')->orderBy('nama_kategori', 'asc')->get();
+    @endphp
+
     <!-- HEADER -->
     <header>
         <!-- top Header -->
@@ -78,7 +82,7 @@
                                             class="fa fa-caret-down"></i></strong>
                                 </div>
                                 <ul class="custom-menu">
-                                    <li><a href="#"><i class="fa fa-user-o"></i> Akun Saya</a></li>
+                                    <li><a href="{{ route('customer.akun', ['id' => Auth::user()->id]) }}"><i class="fa fa-user-o"></i> Akun Saya</a></li>
                                     <li><a href="#"><i class="fa fa-check"></i> History</a></li>
                                     <li>
                                         <a href="#"
@@ -130,23 +134,17 @@
                     <div class="category-nav">
                         <span class="category-header">Kategori <i class="fa falist"></i></span>
                         <ul class="category-list">
-                            @php
-                                $kategori = DB::table('kategori')->orderBy('nama_kategori', 'asc')->get();
-                            @endphp
                             @foreach ($kategori as $row)
-                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a>
-                                </li>
+                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a></li>
                             @endforeach
                         </ul>
-                        <ul class="category-list">
                     </div>
                 @else
                     <div class="category-nav show-on-click">
                         <span class="category-header">Kategori <i class="fa falist"></i></span>
                         <ul class="category-list">
                             @foreach ($kategori as $row)
-                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a>
-                                </li>
+                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a></li>
                             @endforeach
                         </ul>
                     </div>
