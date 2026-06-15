@@ -37,3 +37,10 @@ Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda');
 Route::get('/produk/detail/{id}', [ProdukController::class, 'detail'])->name('produk.detail');
 Route::get('/produk/kategori/{id}', [ProdukController::class, 'produkKategori'])->name('produk.kategori');
 Route::get('/produk/all', [ProdukController::class, 'produkAll'])->name('produk.all');
+
+//API Google
+Route::get('/auth/redirect', [CustomerController::class, 'redirect'])->name('auth.redirect');
+Route::get('/auth/google/callback', [CustomerController::class, 'callback'])->name('auth.callback');
+
+// Logout
+Route::post('/logout', [CustomerController::class, 'logout'])->name('logout');
