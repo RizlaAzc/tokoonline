@@ -44,10 +44,17 @@ Route::middleware('is.customer')->group(function () {
         ->name('customer.akun');
     // Route untuk mengupdate data akun customer
     Route::put('/customer/updateakun/{id}', [CustomerController::class, 'updateAkun'])
-        ->name('customer.akun.update');
+        ->name('customer.updateakun');
     // Route untuk menambahkan produk ke keranjang
-    Route::post('add-to-cart/{id}', [OrderController::class, 'addToCart'])->name('order.addToCart');
     Route::get('cart', [OrderController::class, 'viewCart'])->name('order.cart');
+    Route::post('add-to-cart/{id}', [OrderController::class, 'addToCart'])->name('order.addToCart');
+    Route::post('cart/update/{id}', [OrderController::class, 'updateCart'])->name('order.updateCart');
+    Route::post('remove/{id}', [OrderController::class, 'removeFromCart'])->name('order.remove');
+    // rajaongkir
+    Route::post('select-shipping', [OrderController::class, 'selectShipping'])->name('order.selectShipping');
+    Route::post('update-ongkir', [OrderController::class, 'updateOngkir'])->name('order.update-ongkir');
+    // pembayaran
+    Route::get('select-payment', [OrderController::class, 'selectPayment'])->name('order.selectpayment');
 });
 
 
@@ -71,3 +78,7 @@ Route::get('/cek-ongkir', function () {
 
 Route::get('/ongkir/get-destination', [RajaOngkirControllerV2::class, 'getDestination']);
 Route::post('/ongkir/calculate', [RajaOngkirControllerV2::class, 'calculateOngkir']);
+
+Route::post('order/complete', [OrderController::class, 'complete'])
+    ->name('order.complete');
+Route::get('history', [OrderController::class, 'orderHistory'])->name('order.history');

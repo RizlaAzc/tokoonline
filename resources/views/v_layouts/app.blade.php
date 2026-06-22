@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8">
+    <!-- rajaongkir request AJAX -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -30,10 +32,6 @@
 </head>
 
 <body>
-    @php
-        $kategori = DB::table('kategori')->orderBy('nama_kategori', 'asc')->get();
-    @endphp
-
     <!-- HEADER -->
     <header>
         <!-- top Header -->
@@ -63,7 +61,7 @@
                     <ul class="header-btns">
                         <!-- Cart -->
                         <li class="header-cart dropdown default-dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" ariaexpanded="true">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria- expanded="true">
                                 <div class="header-btns-icon">
                                     <i class="fa fa-shopping-cart"></i>
                                 </div>
@@ -74,7 +72,8 @@
                         @if (Auth::check())
                             <!-- Account -->
                             <li class="header-account dropdown default-dropdown">
-                                <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+                                <div class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                    aria-expanded="true">
                                     <div class="header-btns-icon">
                                         <i class="fa fa-user-o"></i>
                                     </div>
@@ -82,16 +81,20 @@
                                             class="fa fa-caret-down"></i></strong>
                                 </div>
                                 <ul class="custom-menu">
-                                    <li><a href="{{ route('customer.akun', ['id' => Auth::user()->id]) }}"><i class="fa fa-user-o"></i> Akun Saya</a></li>
-                                    <li><a href="#"><i class="fa fa-check"></i> History</a></li>
+                                    <li><a href="{{ route('customer.akun', ['id' => Auth::user()->id]) }}"><i
+                                                class="fa fa-user-o"></i> Akun Saya</a>
+                                    </li>
+                                    <li><a href="{{ route('order.history') }}"><i class="fa fa-check"></i>
+                                            History</a></li>
                                     <li>
-                                        <a href="#"
-                                            onclick="event.preventDefault(); document.getElementById('keluarapp').submit();"><i
-                                                class="fa fa-power-off"></i> Keluar
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                            document.getElementById('keluar-app').submit();">
+                                            <i class="fa fa-power-off"></i> Keluar
                                         </a>
                                         <!-- form keluar app -->
                                         <form id="keluar-app" action="{{ route('logout') }}" method="POST"
-                                            class="dnone">
+                                            class="d-none">
                                             @csrf
                                         </form>
                                         <!-- form keluar app end -->
@@ -100,7 +103,8 @@
                             </li>
                         @else
                             <li class="header-account dropdown default-dropdown">
-                                <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+                                <div class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                    aria-expanded="true">
                                     <div class="header-btns-icon">
                                         <i class="fa fa-user-o"></i>
                                     </div>
@@ -112,7 +116,7 @@
                         @endif
                         <!-- Mobile nav toggle-->
                         <li class="nav-toggle">
-                            <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
+                            <button class="nav-toggle-btn main-btn icon-btn"><i class="fafa-bars"></i></button>
                         </li>
                         <!-- / Mobile nav toggle -->
                     </ul>
@@ -123,28 +127,33 @@
         <!-- container -->
     </header>
     <!-- /HEADER -->
-
     <!-- NAVIGATION -->
     <div id="navigation">
         <!-- container -->
         <div class="container">
             <div id="responsive-nav">
+                @php
+                    $kategori = DB::table('kategori')->orderBy('nama_kategori', 'asc')->get();
+                @endphp
                 @if (request()->segment(1) == '' || request()->segment(1) == 'beranda')
                     <!-- category nav -->
                     <div class="category-nav">
-                        <span class="category-header">Kategori <i class="fa falist"></i></span>
+                        <span class="category-header">Kategori <i class="fa fa-list"></i></span>
                         <ul class="category-list">
                             @foreach ($kategori as $row)
-                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a></li>
+                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a>
+                                </li>
                             @endforeach
                         </ul>
+                        <ul class="category-list">
                     </div>
                 @else
                     <div class="category-nav show-on-click">
-                        <span class="category-header">Kategori <i class="fa falist"></i></span>
+                        <span class="category-header">Kategori <i class="fa fa-list"></i></span>
                         <ul class="category-list">
                             @foreach ($kategori as $row)
-                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a></li>
+                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -179,10 +188,9 @@
                         <div class="banner banner-1">
                             <img src="{{ asset('frontend/banner/banner01.jpg') }}" alt="">
                             <div class="banner-caption text-center">
-                                <h1>Jajanan Tradisional</h1>
-                                <h3 class="font-weak" style="color: 30323a;">Khas Makanan
-                                    Indonesia</h3>
-                                <button class="primary-btn">Pesan Sekarang</button>
+                                <h1>Bags sale</h1>
+                                <h3 class="white-color font-weak">Up to 50% Discount</h3>
+                                <button class="primary-btn">Shop Now</button>
                             </div>
                         </div>
                         <!-- /banner -->
@@ -190,9 +198,9 @@
                         <div class="banner banner-1">
                             <img src="{{ asset('frontend/banner/banner02.jpg') }}" alt="">
                             <div class="banner-caption">
-                                <h1 class="primary-color">Khas Makanan Indonesia<br><span
-                                        class="white-color font-weak">Jajanan Tradisional</span></h1>
-                                <button class="primary-btn">Pesan Sekarang</button>
+                                <h1 class="primary-color">HOT DEAL<br><span class="white-color font-weak">Up to 50%
+                                        OFF</span></h1>
+                                <button class="primary-btn">Shop Now</button>
                             </div>
                         </div>
                         <!-- /banner -->
@@ -200,10 +208,10 @@
                         <div class="banner banner-1">
                             <img src="{{ asset('frontend/banner/banner03.jpg') }}" alt="">
                             <div class="banner-caption">
-                                <h1 style="color: f8694a;">Khas Makanan
-                                    <span>Indonesia</span>
+                                <h1 class="white-color">New Product
+                                    <span>Collection</span>
                                 </h1>
-                                <button class="primary-btn">Pesan Sekarang</button>
+                                <button class="primary-btn">Shop Now</button>
                             </div>
                         </div>
                         <!-- /banner -->
@@ -235,7 +243,7 @@
                             <div class="product-body">
                                 <h2 class="product-name"><a href="#">Product Name Goes
                                         Here</a></h2>
-                                <h3 class="product-price">$32.50 <del class="product-oldprice">$45.00</del></h3>
+                                <h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
                                 <div class="product-rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -402,6 +410,8 @@
     <script src="{{ asset('frontend/js/nouislider.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.zoom.min.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+    <!-- rajaongkir Select2 dan AJAX -->
+    @stack('scripts')
 </body>
 
 </html>
