@@ -7,6 +7,8 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RajaOngkirControllerV2;
+
 Route::get('/', function () {
     // return view('welcome');
     return redirect()->route('beranda');
@@ -61,3 +63,11 @@ Route::get('/auth/google/callback', [CustomerController::class, 'callback'])->na
 
 // Logout
 Route::post('/logout', [CustomerController::class, 'logout'])->name('logout');
+
+// cek_raja_ongkir_v2
+Route::get('/cek-ongkir', function () {
+    return view('cek-ongkir');
+});
+
+Route::get('/ongkir/get-destination', [RajaOngkirControllerV2::class, 'getDestination']);
+Route::post('/ongkir/calculate', [RajaOngkirControllerV2::class, 'calculateOngkir']);
